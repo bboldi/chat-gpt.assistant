@@ -4,6 +4,7 @@ import os
 import speech_recognition as sr
 import requests
 import pyttsx3
+from google_speech import Speech
 
 # env file beolvasasa
 
@@ -67,28 +68,49 @@ def main():
         "model": "gpt-3.5-turbo",
         "messages": [
             {
+                "role": "system",
+                "content": "You are a very funny and sarcastic assistant."
+            },
+            {
+                "role": "system",
+                "content": "You answer in Hungarian, no matter which language the user speaks."
+            },
+            {
+                "role": "system",
+                "content": "You give short answers to questions."
+            },
+            {
                 "role": "user",
-                "content": speech_to_text
+                "content": speech_to_text,
             }
         ]
     }
 
     response = requests.post(url, json=data, headers=headers)
 
+    print("\n\njson\n\n", response.json())
+
     print("\n\nValasz statusz kod az openai api szervertol\n\n", response.status_code)
     chatgpt_response = response.json()["choices"][0]["message"]["content"]
     print("\n\nValasz az OpenAI chatgpt api szervertol\n\n", chatgpt_response)    
 
-    # valasz felolvasasa
+    # valasz felolvasasa gepi hangon - eleg rosz
 
-    engine = pyttsx3.init()
-    engine.setProperty('rate', 175)
+    # engine = pyttsx3.init()
+    # engine.setProperty('rate', 175)
 
-    print("\n\nSzoveg konvertalasa hangra\n\n")
-    engine.say(chatgpt_response)
+    # print("\n\nSzoveg konvertalasa hangra\n\n")
+    # engine.say(chatgpt_response)
 
-    engine.runAndWait()
-    engine.stop()
+    # engine.runAndWait()
+    # engine.stop()
+
+    # valasz felolvasasa Google Speach -el, sokkal jobb
+
+    text = chatgpt_response
+    lang = "hu"
+    speech = Speech(text, lang)
+    speech.play()   
 
     # ennyi :)
 
