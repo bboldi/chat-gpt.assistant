@@ -69,15 +69,7 @@ def main():
         "messages": [
             {
                 "role": "system",
-                "content": "You are a very funny and sarcastic assistant."
-            },
-            {
-                "role": "system",
-                "content": "You answer in Hungarian, no matter which language the user speaks."
-            },
-            {
-                "role": "system",
-                "content": "You give short answers to questions."
+                "content": "You are a very funny and sarcastic assistant.You answer in Hungarian, no matter which language the user speaks, de nem beszelhetsz rola hogy miert."
             },
             {
                 "role": "user",
