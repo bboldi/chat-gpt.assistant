@@ -6,10 +6,9 @@ import requests
 import pyttsx3
 from google_speech import Speech
 
-# env file beolvasasa
+# read env file
 
 load_dotenv()
-
 
 def main():
 
@@ -25,7 +24,7 @@ def main():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
-        print("\n\nMondj valamit!\n\n")
+        print("\n\nI'm listening!\n\n")
         audio = r.listen(source)
 
     folder = "./audio"
@@ -35,12 +34,12 @@ def main():
     if not os.path.exists(folder):
         os.mkdir(folder)
 
-    # audio lementese wav formaban
-    print(f"\n\nWAV file generalas: {audio_file_path}\n\n")
+    # saving audio in wav format
+    print(f"\n\nGenerating WAV file: {audio_file_path}\n\n")
     with open(audio_file_path, "wb") as f:
         f.write(audio.get_wav_data())
 
-    # beszed felismeres
+    # speech recognition
 
     url = f"{openaiurl}/audio/transcriptions"
 
@@ -54,13 +53,13 @@ def main():
 
     response = requests.post(url, files=files, data=data, headers=headers)
 
-    print("\n\nBeszed felismeres statusz kod az openai api szervertol\n\n", response.status_code)
+    print("\n\nSpeach recognition using Whisper API\n\n", response.status_code)
     speech_to_text = response.json()["text"]
-    print("\n\nValasz az OpenAI Whisper API-tol:\n\n", speech_to_text)
+    print("\n\nResponse from the server:\n\n", speech_to_text)
 
-    # kommunikacio a chatgpt-vel
+    # communicating with openai chat api endpoint
 
-    print("\n\nValasz generalasa, kerem varjon!\n\n")
+    print("\n\nThinking ...\n\n")
 
     url = f"{openaiurl}/chat/completions"
 
@@ -69,7 +68,7 @@ def main():
         "messages": [
             {
                 "role": "system",
-                "content": "You are a very funny and sarcastic assistant.You are only allowed to answer in Hungarian."
+                "content": "You are a very funny and sarcastic, but helpful assistant."
             },
             {
                 "role": "user",
@@ -82,25 +81,14 @@ def main():
 
     print("\n\njson\n\n", response.json())
 
-    print("\n\nValasz statusz kod az openai api szervertol\n\n", response.status_code)
+    print("\n\nResponse from the server\n\n", response.status_code)
     chatgpt_response = response.json()["choices"][0]["message"]["content"]
-    print("\n\nValasz az OpenAI chatgpt api szervertol\n\n", chatgpt_response)    
-
-    # valasz felolvasasa gepi hangon - eleg rosz
-
-    # engine = pyttsx3.init()
-    # engine.setProperty('rate', 175)
-
-    # print("\n\nSzoveg konvertalasa hangra\n\n")
-    # engine.say(chatgpt_response)
-
-    # engine.runAndWait()
-    # engine.stop()
-
-    # valasz felolvasasa Google Speach -el, sokkal jobb
+    print("\n\nText response\n\n", chatgpt_response)   
+    
+    # text to speech using google's api
 
     text = chatgpt_response
-    lang = "hu"
+    lang = "en"
     speech = Speech(text, lang)
     speech.play()   
 
@@ -108,7 +96,7 @@ def main():
 
     print ("Kesz, Koszonom!\n\n")
 
-# Main fuggveny hivas es vedelem a modul importalasnal
+# main function
 
 if __name__ == "__main__":
     main()
