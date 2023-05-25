@@ -10,7 +10,7 @@ This is a speech assistant built using OpenAI API. It allows you to speak to the
     ```
     OPENAI_KEY=xxxxxxxxxxxxxxxxxxxxxxx
     ```
-4. Run the `main.py` file using `python main.py`.
+4. Run the `assistant.py` file using `python assistant.py`.
 
 ## How to use
 
