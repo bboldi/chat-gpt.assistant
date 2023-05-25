@@ -1,4 +1,4 @@
-# Speech Assistant using OpenAI
+# Simple Speech Assistant using OpenAI
 
 This is a speech assistant built using OpenAI API. It allows you to speak to the microphone and converts your speech into text. The text is sent to OpenAI ChatGPT API which generates a response. The response is then read out loud to you using Google Speech.
 
