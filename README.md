@@ -5,7 +5,7 @@ This is a speech assistant built using OpenAI API. It allows you to speak to the
 ## Setup
 
 1. Clone this repository.
-2. Install the required packages by running `pip install -r requirements.txt`.
+2. Install the required packages by running `pip install -r requirements.txt`. ( or run init.sh in case you need libs too )
 3. Create an `.env` file and include your OpenAI API key like this:
     ```
     OPENAI_KEY=xxxxxxxxxxxxxxxxxxxxxxx
